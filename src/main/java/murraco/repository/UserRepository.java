@@ -11,6 +11,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
   boolean existsByUsername(String username);
 
   User findByUsername(String username);
+  User findByIdEquals(Integer Id);
 
   @Transactional
   void deleteByUsername(String username);

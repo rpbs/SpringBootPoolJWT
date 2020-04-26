@@ -36,6 +36,14 @@ public class Pool {
         return this.options;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public void setOptions(List<Options> options) {
         this.options = options;
     };
