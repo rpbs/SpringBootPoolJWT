@@ -29,7 +29,7 @@ public class Pool {
     @Column(name = "Description", nullable = false)
     private String description;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     private List<Options> options;
 
     public List<Options> getOptions() {

@@ -29,6 +29,10 @@ public class Options {
         this.description = description;
     }
 
+    public Options(String description){
+        this.setDescription(description);
+    }
+
     public Integer getId() {
         return this.poolOptionsId;
     }

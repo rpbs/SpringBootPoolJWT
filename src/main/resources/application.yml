@@ -1,4 +1,6 @@
 spring:
+  main:
+    lazy-initialization: true
   datasource:
     url: jdbc:mysql://localhost:3306/user_db?useTimezone=true&serverTimezone=UTC
     username: root
@@ -10,7 +12,7 @@ spring:
     min-idle: 15
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect

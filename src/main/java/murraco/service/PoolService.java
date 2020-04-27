@@ -11,6 +11,7 @@ import murraco.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -26,7 +27,9 @@ public class PoolService {
     @Autowired
     OptionRepository optionRepository;
 
-    public void CreatePool(PoolDTO dto){
+
+    @Transactional
+    public Pool CreatePool(PoolDTO dto){
         try {
             //final Pool p = this.poolRepository.findByIdEquals(dto.getId());
             final User u = this.userRepository.findByIdEquals(dto.getId());
@@ -43,7 +46,7 @@ public class PoolService {
             List<Options> opcoes = new LinkedList<Options>();
 
             dto.getOptions().forEach(opcao -> {
-                opcoes.add(new Options(novo, opcao));
+                opcoes.add(new Options(novo, opcao.getDescription()));
             });
 
             p.setOptions(opcoes);
@@ -52,8 +55,7 @@ public class PoolService {
 
             p = this.poolRepository.save(p);
 
-            System.out.println(p);
-
+            return p;
         }
         catch (Exception e){
             throw new CustomException(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);

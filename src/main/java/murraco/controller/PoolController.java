@@ -3,11 +3,16 @@ package murraco.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import murraco.dto.OptionsDTO;
 import murraco.dto.PoolDTO;
+import murraco.model.Options;
 import murraco.model.Pool;
 import murraco.service.PoolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/pools")
@@ -31,6 +36,16 @@ public class PoolController {
         novo.setId(poolId);
         novo.setDescription(p.getDescription());
         novo.setTitle(p.getDescription());
+        List<Options> x = p.getOptions();
+
+        List<OptionsDTO> optionsDTOS = new ArrayList<>();
+
+        for (Options o : x){
+            optionsDTOS.add(new OptionsDTO(o.getId(), o.getDescription()));
+        }
+
+        novo.setOptions(optionsDTOS);
+
         return novo;
     }
 

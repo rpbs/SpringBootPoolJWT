@@ -2,7 +2,14 @@ package murraco;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
+import murraco.dto.OptionsDTO;
+import murraco.dto.PoolDTO;
+import murraco.model.Options;
+import murraco.model.Pool;
+import murraco.service.OptionService;
+import murraco.service.PoolService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -19,6 +26,9 @@ public class JwtAuthServiceApp implements CommandLineRunner {
 
   @Autowired
   UserService userService;
+
+  @Autowired
+  PoolService poolService;
 
   public static void main(String[] args) {
     SpringApplication.run(JwtAuthServiceApp.class, args);
@@ -46,6 +56,21 @@ public class JwtAuthServiceApp implements CommandLineRunner {
     client.setRoles(new ArrayList<Role>(Arrays.asList(Role.ROLE_CLIENT)));
 
     userService.signup(client);
+
+    PoolDTO x = new PoolDTO();
+    x.setId(1);
+    x.setTitle("a");
+    x.setDescription("a");
+    x.setOptions( new ArrayList<OptionsDTO>() {
+      {
+        add(new OptionsDTO("Geeks"));
+        add(new OptionsDTO("for"));
+        add(new OptionsDTO("nice"));
+      }
+    });
+
+    this.poolService.CreatePool(x);
+
   }
 
 }
