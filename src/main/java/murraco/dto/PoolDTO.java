@@ -2,6 +2,8 @@ package murraco.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.List;
+
 public class PoolDTO {
 
     @ApiModelProperty(position = 0)
@@ -10,6 +12,8 @@ public class PoolDTO {
     private String title;
     @ApiModelProperty(position = 2)
     private String description;
+    @ApiModelProperty(position = 3)
+    private List<String> options;
 
     public Integer getId() {
         return id;
@@ -33,5 +37,13 @@ public class PoolDTO {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public List<String> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<String> options) {
+        this.options = options;
     }
 }

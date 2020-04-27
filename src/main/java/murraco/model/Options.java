@@ -22,6 +22,13 @@ public class Options {
     @Column(name = "description", nullable = false)
     private String description;
 
+    public Options() {  }
+
+    public Options(Pool pool, String description) {
+        this.pool = pool;
+        this.description = description;
+    }
+
     public Integer getId() {
         return this.poolOptionsId;
     }
