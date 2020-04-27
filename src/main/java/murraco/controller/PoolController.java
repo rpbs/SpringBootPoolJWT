@@ -28,7 +28,7 @@ public class PoolController {
         poolService.CreatePool(dto);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     @ApiOperation(value = "Return all pools")
     public List<PoolDTO> Get(){
         List<PoolDTO> data = new ArrayList<PoolDTO>();
@@ -42,7 +42,7 @@ public class PoolController {
         return data;
     }
 
-    @GetMapping()
+    @GetMapping
     @ApiOperation(value = "${PoolController.Get}")
     public PoolDTO Get(Integer poolId){
         PoolDTO novo = new PoolDTO();
