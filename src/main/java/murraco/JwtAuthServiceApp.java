@@ -71,6 +71,19 @@ public class JwtAuthServiceApp implements CommandLineRunner {
 
     this.poolService.CreatePool(x);
 
+    x = new PoolDTO();
+    x.setId(1);
+    x.setTitle("a");
+    x.setDescription("a");
+    x.setOptions( new ArrayList<OptionsDTO>() {
+      {
+        add(new OptionsDTO("kkk"));
+        add(new OptionsDTO("xxx"));
+        add(new OptionsDTO("www"));
+      }
+    });
+
+    this.poolService.CreatePool(x);
   }
 
 }

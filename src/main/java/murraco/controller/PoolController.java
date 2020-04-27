@@ -29,6 +29,20 @@ public class PoolController {
     }
 
     @GetMapping
+    @ApiOperation(value = "Return all pools")
+    public List<PoolDTO> Get(){
+        List<PoolDTO> data = new ArrayList<PoolDTO>();
+
+        List<Pool> pools = poolService.GetPool();
+
+        for (Pool p : pools){
+            data.add(this.Mapper(p));
+        }
+
+        return data;
+    }
+
+    @GetMapping()
     @ApiOperation(value = "${PoolController.Get}")
     public PoolDTO Get(Integer poolId){
         PoolDTO novo = new PoolDTO();
@@ -47,6 +61,23 @@ public class PoolController {
         novo.setOptions(optionsDTOS);
 
         return novo;
+    }
+
+    private PoolDTO Mapper(Pool p){
+        PoolDTO dto = new PoolDTO();
+        dto.setId(p.getId());
+        dto.setDescription(p.getDescription());
+        dto.setTitle(p.getTitle());
+
+        List<OptionsDTO> optionsDTOS = new ArrayList<>();
+
+        for (Options o : p.getOptions()){
+            optionsDTOS.add(new OptionsDTO(o.getId(), o.getDescription()));
+        }
+
+        dto.setOptions(optionsDTOS);
+
+        return dto;
     }
 
 }

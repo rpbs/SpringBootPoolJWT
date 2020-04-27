@@ -66,4 +66,8 @@ public class PoolService {
         Pool p = poolRepository.findByIdEquals(poolId);
         return p;
     }
+
+    public List<Pool> GetPool(){
+        return this.poolRepository.findAll();
+    }
 }
