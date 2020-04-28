@@ -27,6 +27,14 @@ public class Awnsers {
     @JoinColumn(name = "option_id", nullable = false)
     private Options option;
 
+    public Pool getPool() {
+        return pool;
+    }
+
+    public void setPool(Pool pool) {
+        this.pool = pool;
+    }
+
     public Options getOption() {
         return this.option;
     }

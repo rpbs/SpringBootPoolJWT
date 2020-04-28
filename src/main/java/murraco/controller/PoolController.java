@@ -3,6 +3,7 @@ package murraco.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import murraco.dto.AwnserPool;
 import murraco.dto.OptionsDTO;
 import murraco.dto.PoolDTO;
 import murraco.model.Options;
@@ -31,6 +32,7 @@ public class PoolController {
     @GetMapping("/all")
     @ApiOperation(value = "Return all pools")
     public List<PoolDTO> Get(){
+
         List<PoolDTO> data = new ArrayList<PoolDTO>();
 
         List<Pool> pools = poolService.GetPool();
@@ -61,6 +63,12 @@ public class PoolController {
         novo.setOptions(optionsDTOS);
 
         return novo;
+    }
+
+    @PostMapping("/anwser")
+    @ApiOperation(value = "Anwser a pool based on its choice")
+    public void AwnserPool(@RequestBody AwnserPool awnserPool){
+
     }
 
     private PoolDTO Mapper(Pool p){

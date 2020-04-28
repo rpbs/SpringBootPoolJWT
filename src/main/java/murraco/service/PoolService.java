@@ -1,18 +1,25 @@
 package murraco.service;
 
+import murraco.component.IAuthenticationFacade;
 import murraco.dto.PoolDTO;
 import murraco.exception.CustomException;
+import murraco.model.Awnsers;
 import murraco.model.Options;
 import murraco.model.Pool;
 import murraco.model.User;
+import murraco.repository.AwnserRepositoty;
 import murraco.repository.OptionRepository;
 import murraco.repository.PoolRepository;
 import murraco.repository.UserRepository;
+import murraco.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,6 +33,12 @@ public class PoolService {
     private UserRepository userRepository;
     @Autowired
     OptionRepository optionRepository;
+    @Autowired
+    AwnserRepositoty awnserRepositoty;
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    IAuthenticationFacade authenticationFacade;
 
 
     @Transactional
@@ -69,5 +82,20 @@ public class PoolService {
 
     public List<Pool> GetPool(){
         return this.poolRepository.findAll();
+    }
+
+    public void AwnserPool(Integer poolId, Integer optionId){
+        Awnsers novo = new Awnsers();
+
+        String nome = authenticationFacade.getAuthentication().getName();
+        final Pool p = this.poolRepository.findByIdEquals(poolId);
+        final Options o = this.optionRepository.findByPoolOptionsIdEquals(optionId);
+        final User u = this.userRepository.findByUsername(nome);
+
+        novo.setOption(o);
+        novo.setPool(p);
+        novo.setUser(u);
+
+        awnserRepositoty.save(novo);
     }
 }
