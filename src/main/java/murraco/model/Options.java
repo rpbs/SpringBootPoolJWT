@@ -13,7 +13,7 @@ public class Options {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "option_id")
-    private Integer poolOptionsId;
+    private Integer optionId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pool_id", nullable = false)
@@ -29,16 +29,16 @@ public class Options {
         this.description = description;
     }
 
+    public Integer getOptionId() {
+        return optionId;
+    }
+
+    public void setOptionId(Integer optionId) {
+        this.optionId = optionId;
+    }
+
     public Options(String description){
         this.setDescription(description);
-    }
-
-    public Integer getId() {
-        return this.poolOptionsId;
-    }
-
-    public void setId(Integer id) {
-        this.poolOptionsId = id;
     }
 
     public Pool getPool() {

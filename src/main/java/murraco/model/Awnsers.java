@@ -13,7 +13,7 @@ public class Awnsers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "anwser_id")
-    private Integer anserId;
+    private Integer awnserId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
@@ -51,12 +51,11 @@ public class Awnsers {
         this.user = user;
     };
 
-    public Integer getAnserId() {
-        return this.anserId;
+    public Integer getAwnserId() {
+        return awnserId;
     }
 
-    public void setAnserId(Integer anserId) {
-        this.anserId = anserId;
-    };
-
+    public void setAwnserId(Integer awnserId) {
+        this.awnserId = awnserId;
+    }
 }

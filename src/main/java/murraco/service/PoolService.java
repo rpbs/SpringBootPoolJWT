@@ -89,7 +89,7 @@ public class PoolService {
 
         String nome = authenticationFacade.getAuthentication().getName();
         final Pool p = this.poolRepository.findByIdEquals(poolId);
-        final Options o = this.optionRepository.findByPoolOptionsIdEquals(optionId);
+        final Options o = this.optionRepository.findById(optionId).get();
         final User u = this.userRepository.findByUsername(nome);
 
         novo.setOption(o);
@@ -97,5 +97,13 @@ public class PoolService {
         novo.setUser(u);
 
         awnserRepositoty.save(novo);
+    }
+
+    public Awnsers GetPoolUserAwnser(Integer poolId) {
+        String nome = authenticationFacade.getAuthentication().getName();
+        final User u = this.userRepository.findByUsername(nome);
+        final Pool p = this.poolRepository.findByIdEquals(poolId);
+        Awnsers a = this.awnserRepositoty.findByPoolAndUser(p, u);
+        return a;
     }
 }

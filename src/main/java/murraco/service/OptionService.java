@@ -6,7 +6,9 @@ import murraco.repository.OptionRepository;
 import murraco.repository.PoolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
+import org.springframework.stereotype.Service;
 
+@Service
 public class OptionService {
 
     @Autowired
@@ -21,5 +23,9 @@ public class OptionService {
         final Pool p = this.poolRepository.findByIdEquals(poolId);
         op.setPool(p);
         this.optionRepository.save(op);
+    }
+
+    public Options GetOption(Integer optionId){
+        return this.optionRepository.findById(optionId).get();
     }
 }

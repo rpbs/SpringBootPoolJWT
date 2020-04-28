@@ -6,8 +6,11 @@ import io.swagger.annotations.ApiOperation;
 import murraco.dto.AwnserPool;
 import murraco.dto.OptionsDTO;
 import murraco.dto.PoolDTO;
+import murraco.model.Awnsers;
 import murraco.model.Options;
 import murraco.model.Pool;
+import murraco.service.AwnserService;
+import murraco.service.OptionService;
 import murraco.service.PoolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +25,10 @@ public class PoolController {
 
     @Autowired
     PoolService poolService;
+    @Autowired
+    AwnserService awnserService;
+    @Autowired
+    OptionService optionService;
 
     @PostMapping
     @ApiOperation(value = "${PoolController.create}")
@@ -57,7 +64,7 @@ public class PoolController {
         List<OptionsDTO> optionsDTOS = new ArrayList<>();
 
         for (Options o : x){
-            optionsDTOS.add(new OptionsDTO(o.getId(), o.getDescription()));
+            optionsDTOS.add(new OptionsDTO(o.getOptionId(), o.getDescription()));
         }
 
         novo.setOptions(optionsDTOS);
@@ -71,6 +78,19 @@ public class PoolController {
         this.poolService.AwnserPool(awnserPool.getPoolId(), awnserPool.getOptionId());
     }
 
+    @PutMapping("/edit/{poolId}/awnser/{optionId}")
+    @ApiOperation(value = "Anwser a pool based on its choice")
+    public void EditAnserPool(@PathVariable Integer poolId, @PathVariable Integer optionId) throws Exception {
+        Awnsers p = this.poolService.GetPoolUserAwnser(poolId);
+        Options o = this.optionService.GetOption(optionId);
+        if (p.getPool().getId() == o.getPool().getId()) {
+            p.setOption(o);
+            this.awnserService.UpdateAwnser(p);
+        }
+        else throw new Exception("Option not belong to the pool");
+    }
+
+
     private PoolDTO Mapper(Pool p){
         PoolDTO dto = new PoolDTO();
         dto.setId(p.getId());
@@ -80,7 +100,7 @@ public class PoolController {
         List<OptionsDTO> optionsDTOS = new ArrayList<>();
 
         for (Options o : p.getOptions()){
-            optionsDTOS.add(new OptionsDTO(o.getId(), o.getDescription()));
+            optionsDTOS.add(new OptionsDTO(o.getOptionId(), o.getDescription()));
         }
 
         dto.setOptions(optionsDTOS);
