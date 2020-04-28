@@ -50,6 +50,7 @@ public class Awnsers {
     public void setUser(User user) {
         this.user = user;
     };
+
     public Integer getAnserId() {
         return this.anserId;
     }

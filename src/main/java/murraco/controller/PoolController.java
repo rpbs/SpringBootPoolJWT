@@ -68,7 +68,7 @@ public class PoolController {
     @PostMapping("/anwser")
     @ApiOperation(value = "Anwser a pool based on its choice")
     public void AwnserPool(@RequestBody AwnserPool awnserPool){
-
+        this.poolService.AwnserPool(awnserPool.getPoolId(), awnserPool.getOptionId());
     }
 
     private PoolDTO Mapper(Pool p){
