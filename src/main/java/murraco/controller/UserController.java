@@ -76,17 +76,6 @@ public class UserController {
     return modelMapper.map(userService.search(username), UserResponseDTO.class);
   }
 
-  @GetMapping(value = "/me")
-  @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENT')")
-  @ApiOperation(value = "${UserController.me}", response = UserResponseDTO.class)
-  @ApiResponses(value = {//
-      @ApiResponse(code = 400, message = "Something went wrong"), //
-      @ApiResponse(code = 403, message = "Access denied"), //
-      @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-  public UserResponseDTO whoami(HttpServletRequest req) {
-    return modelMapper.map(userService.whoami(req), UserResponseDTO.class);
-  }
-
   @GetMapping("/refresh")
   @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENT')")
   public String refresh(HttpServletRequest req) {
@@ -94,10 +83,9 @@ public class UserController {
   }
 
 
-  @GetMapping("/logout")
+  @PostMapping("/logout")
   @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENT')")
-  public void logout(@RequestBody String token) {
+  public void logout(@ApiParam("Token") @RequestParam String token) {
     this.userService.insertTokenBlackList(token);
   }
-
 }

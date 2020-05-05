@@ -12,6 +12,7 @@ import murraco.model.Pool;
 import murraco.service.AwnserService;
 import murraco.service.OptionService;
 import murraco.service.PoolService;
+import murraco.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,8 @@ public class PoolController {
     AwnserService awnserService;
     @Autowired
     OptionService optionService;
+    @Autowired
+    UserService userService;
 
     @PostMapping
     @ApiOperation(value = "${PoolController.create}")
@@ -79,7 +82,7 @@ public class PoolController {
     }
 
     @PutMapping("/edit/{poolId}/awnser/{optionId}")
-    @ApiOperation(value = "Anwser a pool based on its choice")
+    @ApiOperation(value = "Awnser a pool based on its choice")
     public void EditAnserPool(@PathVariable Integer poolId, @PathVariable Integer optionId) throws Exception {
         Awnsers p = this.poolService.GetPoolUserAwnser(poolId);
         Options o = this.optionService.GetOption(optionId);
@@ -89,13 +92,6 @@ public class PoolController {
         }
         else throw new Exception("Option not belong to the pool");
     }
-
-    @PostMapping("/logout")
-    @ApiOperation(value = "Logout")
-    public void Logout(@RequestBody String token){
-
-    }
-
 
     private PoolDTO Mapper(Pool p){
         PoolDTO dto = new PoolDTO();
