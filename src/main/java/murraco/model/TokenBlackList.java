@@ -13,7 +13,8 @@ public class TokenBlackList {
     @Column(unique = true, nullable = false)
     private String token;
 
-    public TokenBlackList() {
+    public TokenBlackList(String token) {
+        this.token = token;
     }
 
     public TokenBlackList(Integer id, String token) {

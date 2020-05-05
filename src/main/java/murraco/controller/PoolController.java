@@ -108,7 +108,6 @@ public class PoolController {
         for (Options o : p.getOptions()){
             Boolean respondido = this.awnserService.isAnsered(p, o);
             optionsDTOS.add(new OptionsDTO(o.getOptionId(), o.getDescription(), respondido));
-
         }
 
         dto.setOptions(optionsDTOS);

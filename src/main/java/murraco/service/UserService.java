@@ -2,6 +2,8 @@ package murraco.service;
 
 import javax.servlet.http.HttpServletRequest;
 
+import murraco.model.TokenBlackList;
+import murraco.repository.TokenBlackListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +29,9 @@ public class UserService {
 
   @Autowired
   private JwtTokenProvider jwtTokenProvider;
+
+  @Autowired
+  TokenBlackListRepository tokenBlackListRepository;
 
   @Autowired
   private AuthenticationManager authenticationManager;
@@ -68,6 +73,14 @@ public class UserService {
 
   public String refresh(String username) {
     return jwtTokenProvider.createToken(username, userRepository.findByUsername(username).getRoles());
+  }
+
+  public boolean existsToken(String tk){
+    return this.tokenBlackListRepository.existsByTokenEquals(tk);
+  }
+
+  public void insertTokenBlackList(String tk){
+    this.tokenBlackListRepository.save(new TokenBlackList(tk));
   }
 
 }

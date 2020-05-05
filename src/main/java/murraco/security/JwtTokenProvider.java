@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
+import murraco.model.TokenBlackList;
+import murraco.repository.TokenBlackListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -40,6 +42,9 @@ public class JwtTokenProvider {
 
   @Autowired
   private MyUserDetails myUserDetails;
+
+  @Autowired
+  TokenBlackListRepository tokenBlackListRepository;
 
   @PostConstruct
   protected void init() {
@@ -82,10 +87,16 @@ public class JwtTokenProvider {
   public boolean validateToken(String token) {
     try {
       Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-      return true;
+      if (!tokenBlackListRepository.existsByTokenEquals(token))
+        return true;
+      else
+        new JwtException("Invalid token");
+
     } catch (JwtException | IllegalArgumentException e) {
+      tokenBlackListRepository.save(new TokenBlackList(token));
       throw new CustomException("Expired or invalid JWT token", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    return false;
   }
 
 }

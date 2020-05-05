@@ -93,4 +93,11 @@ public class UserController {
     return userService.refresh(req.getRemoteUser());
   }
 
+
+  @GetMapping("/logout")
+  @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENT')")
+  public void logout(@RequestBody String token) {
+    this.userService.insertTokenBlackList(token);
+  }
+
 }
