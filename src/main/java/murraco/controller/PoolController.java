@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/pools")
 @Api(tags = "pools")
@@ -41,8 +41,7 @@ public class PoolController {
     @ApiOperation(value = "Return all pools")
     public List<PoolDTO> Get(){
 
-        List<PoolDTO> data = new ArrayList<PoolDTO>();
-
+        List<PoolDTO> data = new ArrayList();
         List<Pool> pools = poolService.GetPool();
 
         for (Pool p : pools){
@@ -57,7 +56,6 @@ public class PoolController {
     public PoolDTO Get(Integer poolId){
         PoolDTO novo = new PoolDTO();
         Pool p = poolService.GetPool(poolId);
-        novo.setId(poolId);
         novo.setDescription(p.getDescription());
         novo.setTitle(p.getDescription());
         List<Options> x = p.getOptions();
@@ -65,7 +63,8 @@ public class PoolController {
         List<OptionsDTO> optionsDTOS = new ArrayList<>();
 
         for (Options o : x){
-            optionsDTOS.add(new OptionsDTO(o.getOptionId(), o.getDescription()));
+            final Boolean respondido = this.awnserService.isAnsered(p, o);
+            optionsDTOS.add(new OptionsDTO(o.getOptionId(), o.getDescription(), respondido));
         }
 
         novo.setOptions(optionsDTOS);
@@ -91,6 +90,12 @@ public class PoolController {
         else throw new Exception("Option not belong to the pool");
     }
 
+    @PostMapping("/logout")
+    @ApiOperation(value = "Logout")
+    public void Logout(@RequestBody String token){
+
+    }
+
 
     private PoolDTO Mapper(Pool p){
         PoolDTO dto = new PoolDTO();
@@ -101,7 +106,9 @@ public class PoolController {
         List<OptionsDTO> optionsDTOS = new ArrayList<>();
 
         for (Options o : p.getOptions()){
-            optionsDTOS.add(new OptionsDTO(o.getOptionId(), o.getDescription()));
+            Boolean respondido = this.awnserService.isAnsered(p, o);
+            optionsDTOS.add(new OptionsDTO(o.getOptionId(), o.getDescription(), respondido));
+
         }
 
         dto.setOptions(optionsDTOS);

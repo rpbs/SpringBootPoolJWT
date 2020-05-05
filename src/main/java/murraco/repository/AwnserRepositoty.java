@@ -9,4 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface AwnserRepositoty extends JpaRepository<Awnsers, Integer> {
     Awnsers findByPoolAndUser(Pool p, User u);
     Awnsers findByAwnserIdEquals(Integer AwnserId);
+    Boolean existsByPoolAndOption(Pool p, Options o);
 }

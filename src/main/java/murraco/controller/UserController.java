@@ -17,7 +17,7 @@ import murraco.dto.UserResponseDTO;
 import murraco.model.User;
 import murraco.service.UserService;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/users")
 @Api(tags = "users")
@@ -29,7 +29,6 @@ public class UserController {
   @Autowired
   private ModelMapper modelMapper;
 
-  @CrossOrigin(origins = "http://localhost:3000")
   @PostMapping("/signin")
   @ApiOperation(value = "${UserController.signin}")
   @ApiResponses(value = {//

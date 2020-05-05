@@ -44,10 +44,11 @@ public class PoolService {
     @Transactional
     public Pool CreatePool(PoolDTO dto){
         try {
-            //final Pool p = this.poolRepository.findByIdEquals(dto.getId());
-            final User u = this.userRepository.findByIdEquals(dto.getId());
 
-            Pool novo = new Pool();
+            String nome = authenticationFacade.getAuthentication().getName();
+            final User u = this.userRepository.findByUsername(nome);
+
+            final Pool novo = new Pool();
 
             novo.setCreator(u);
             novo.setCreatedDate(new Date());
@@ -59,8 +60,13 @@ public class PoolService {
             List<Options> opcoes = new LinkedList<Options>();
 
             dto.getOptions().forEach(opcao -> {
-                opcoes.add(new Options(novo, opcao.getDescription()));
+                if (!opcao.getDescription().isEmpty())
+                    opcoes.add(new Options(novo, opcao.getDescription()));
             });
+
+            if (opcoes.size() <= 1){
+                throw new Exception("Can't create poll with one option only");
+            }
 
             p.setOptions(opcoes);
 
@@ -87,9 +93,9 @@ public class PoolService {
     public void AwnserPool(Integer poolId, Integer optionId){
         Awnsers novo = new Awnsers();
 
-        String nome = authenticationFacade.getAuthentication().getName();
         final Pool p = this.poolRepository.findByIdEquals(poolId);
         final Options o = this.optionRepository.findById(optionId).get();
+        String nome = authenticationFacade.getAuthentication().getName();
         final User u = this.userRepository.findByUsername(nome);
 
         novo.setOption(o);
