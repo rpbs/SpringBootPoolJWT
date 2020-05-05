@@ -98,11 +98,11 @@ public class PoolController {
         dto.setId(p.getId());
         dto.setDescription(p.getDescription());
         dto.setTitle(p.getTitle());
-
+        dto.setCreator(p.getCreator().getUsername());
         List<OptionsDTO> optionsDTOS = new ArrayList<>();
 
         for (Options o : p.getOptions()){
-            Boolean respondido = this.awnserService.isAnsered(p, o);
+            final Boolean respondido = this.awnserService.isAnsered(p, o);
             optionsDTOS.add(new OptionsDTO(o.getOptionId(), o.getDescription(), respondido));
         }
 

@@ -15,9 +15,19 @@ public class PoolDTO {
     private String description;
     @ApiModelProperty(position = 3)
     private List<OptionsDTO> options;
+    @ApiModelProperty(position = 3)
+    private String creator;
 
     public Integer getId() {
         return id;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 
     public void setId(Integer id) {
