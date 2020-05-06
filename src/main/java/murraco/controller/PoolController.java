@@ -108,10 +108,10 @@ public class PoolController {
 
             List<AwnsersDataDTO> list = new ArrayList<>();
 
-            for (Awnsers a : awnsers){
+            for (Options o : p.getOptions()){
                 AwnsersDataDTO dto = new AwnsersDataDTO();
-                Integer qnt = this.awnserService.countVotesByOption(a.getOption());
-                dto.setOption(a.getOption().getDescription());
+                Integer qnt = this.awnserService.countVotesByOption(o);
+                dto.setOption(o.getDescription());
                 dto.setQntVotes(qnt);
                 list.add(dto);
             }
@@ -121,9 +121,7 @@ public class PoolController {
             results.add(r);
         }
 
-
         return results;
-
     }
 
     private PoolDTO Mapper(Pool p){
