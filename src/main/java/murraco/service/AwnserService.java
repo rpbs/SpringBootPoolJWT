@@ -10,6 +10,8 @@ import murraco.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AwnserService {
 
@@ -32,5 +34,17 @@ public class AwnserService {
         String nome = authenticationFacade.getAuthentication().getName();
         final User u = this.userRepository.findByUsername(nome);
         return this.awnserRepositoty.existsByPoolAndOptionAndUser(p, o, u);
+    }
+
+    public List<Awnsers> GetAllAwnser(){
+        return this.awnserRepositoty.findAll();
+    }
+
+    public List<Awnsers> GetAllAwnserByPool(Pool p){
+        return this.awnserRepositoty.findByPool(p);
+    }
+
+    public Integer countVotesByOption(Options o){
+        return this.awnserRepositoty.countAwnsersByOption(o);
     }
 }

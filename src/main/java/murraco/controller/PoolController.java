@@ -3,9 +3,7 @@ package murraco.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import murraco.dto.AwnserPool;
-import murraco.dto.OptionsDTO;
-import murraco.dto.PoolDTO;
+import murraco.dto.*;
 import murraco.model.Awnsers;
 import murraco.model.Options;
 import murraco.model.Pool;
@@ -91,6 +89,41 @@ public class PoolController {
             this.awnserService.UpdateAwnser(p);
         }
         else throw new Exception("Option not belong to the pool");
+    }
+
+    @GetMapping("/results")
+    @ApiOperation(value = "Shows data for a chart")
+    public List<ResultsDTO> Results() throws Exception {
+        List<ResultsDTO> results = new ArrayList<>();
+        List<Pool> pools = poolService.GetPool();
+
+        for (Pool p : pools){
+            List<Awnsers> awnsers = awnserService.GetAllAwnserByPool(p);
+            ResultsDTO r = new ResultsDTO();
+
+            r.setCreator(p.getCreator().getUsername());
+            r.setDescription(p.getDescription());
+            r.setId(p.getId());
+            r.setTitle(p.getTitle());
+
+            List<AwnsersDataDTO> list = new ArrayList<>();
+
+            for (Awnsers a : awnsers){
+                AwnsersDataDTO dto = new AwnsersDataDTO();
+                Integer qnt = this.awnserService.countVotesByOption(a.getOption());
+                dto.setOption(a.getOption().getDescription());
+                dto.setQntVotes(qnt);
+                list.add(dto);
+            }
+
+            r.setOptions(list);
+
+            results.add(r);
+        }
+
+
+        return results;
+
     }
 
     private PoolDTO Mapper(Pool p){
